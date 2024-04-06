@@ -7,12 +7,9 @@ export const Desarrollo = () => {
   const [imageReceived, setImageReceived] = useState("");
   const imageInputRef = useRef<HTMLInputElement>();
 
-  const handleShowImage = (e) => {
+  const handleShowImage = () => {
     const file = imageInputRef.current?.files?.[0];
     if (file) setUrlImage(URL.createObjectURL(file));
-    // const reader = new FileReader();
-    // reader.onload = () => setUrlImage(reader.result);
-    // if (file) reader.readAsDataURL(file);
   }
 
   return (
@@ -31,7 +28,7 @@ export const Desarrollo = () => {
               className="rounded-xl aspect-square object-contain bg-default-50 shadow-2xl w-80"
             />
           </div>
-          <input className="hidden" type="file" accept="image/*" ref={imageInputRef} onChange={(e) => handleShowImage(e)} />
+          <input className="hidden" type="file" accept="image/*" ref={imageInputRef} onChange={handleShowImage} />
         </div>
         <div className="flex flex-col gap-4 items-center">
           <h4 className="text-xl">Imagen desencriptada</h4>

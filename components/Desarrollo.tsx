@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 
 export const Desarrollo = () => {
-  const [urlImage, setUrlImage] = useState<string | ArrayBuffer | null>("");
+  const [urlImage, setUrlImage] = useState("");
   const [imageReceived, setImageReceived] = useState("");
-  const imageInputRef = useRef<HTMLInputElement>();
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleShowImage = () => {
     const file = imageInputRef.current?.files?.[0];

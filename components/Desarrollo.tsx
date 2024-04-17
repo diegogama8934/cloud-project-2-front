@@ -27,37 +27,39 @@ export const Desarrollo = () => {
       console.error("No se seleccionó ninguna imagen");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("image", file);
-  
+
     try {
-      const response = await fetch("http://localhost:5910/images", {
+      const response = await fetch("http://34.200.225.25:5910/images", {
         method: "POST",
         body: formData
       });
-  
+
+      console.log(response);
+
       if (!response.ok) {
         throw new Error("Error al enviar la imagen");
       }
-  
+
       const encryptedImageString = await response.text();
       setImageReceived(`data:image/jpeg;base64,${encryptedImageString}`);
-  
+
     } catch (error) {
       console.error("Error:", error);
     }
   }
-  
+
   const handleDecryptImage = async () => {
     if (!imageReceived) {
       console.error("No hay imagen recibida para desencriptar");
       return;
     }
-  
+
     const encryptedImageData = imageReceived.split(",")[1];
     const encryptedImageArrayBuffer = Uint8Array.from(atob(encryptedImageData), c => c.charCodeAt(0)).buffer;
-  
+
     try {
       // Convertir la clave de encriptación a formato adecuado
       const keyBuffer = new TextEncoder().encode(encryptionKey);
@@ -68,7 +70,7 @@ export const Desarrollo = () => {
         false, // no es extractable
         ["decrypt"] // operaciones permitidas
       );
-  
+
       // Desencriptar la imagen
       const decryptedImage = await window.crypto.subtle.decrypt(
         {
@@ -78,21 +80,21 @@ export const Desarrollo = () => {
         importedKey,
         encryptedImageArrayBuffer
       );
-  
+
       // Convertir el ArrayBuffer a Blob
       const decryptedImageBlob = new Blob([new Uint8Array(decryptedImage)], { type: 'image/jpeg' });
-  
+
       // Crear una URL local para la imagen desencriptada
       const decryptedImageURL = URL.createObjectURL(decryptedImageBlob);
-  
+
       // Mostrar la imagen desencriptada
       setImageDecrypted(decryptedImageURL);
     } catch (error) {
       console.error("Error al desencriptar la imagen:", error);
     }
   }
-  
-  
+
+
   return (
     <div className="flex flex-col gap-4 items-center">
       <h3 className="text-3xl">Desarrollo del proyecto</h3>
